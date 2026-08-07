@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ATZLAM Timer</title>
+
+<meta name="description"
+content="Crea y comparte cuentas atrás con ATZLAM Timer">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#05070b;
+    --card:#0d1118;
+    --card2:#080c12;
+    --border:#202b38;
+    --text:#ffffff;
+    --muted:#8290a0;
+    --blue:#087cff;
+    --blue2:#005dcc;
+    --green:#19c37d;
+    --red:#c93645;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #122137 0%,
+            #05070b 48%
+        );
+
+    color:var(--text);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+}
+
+.app{
+
+    width:100%;
+    max-width:680px;
+
+    margin:auto;
+
+    padding:
+        25px
+        16px
+        50px;
+
+}
+
+.logo{
+
+    text-align:center;
+
+    font-size:28px;
+
+    font-weight:900;
+
+    letter-spacing:7px;
+
+    margin-bottom:25px;
+
+}
+
+.logo span{
+
+    color:var(--blue);
+
+}
+
+.card{
+
+    background:
+        rgba(13,17,24,.97);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:26px;
+
+    padding:25px;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.5);
+
+}
+
+.status{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    margin-bottom:15px;
+
+}
+
+.timer{
+
+    text-align:center;
+
+    font-size:
+        clamp(
+            42px,
+            11vw,
+            82px
+        );
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+    line-height:1.15;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    margin:15px 0 8px;
+
+}
+
+.timerDetails{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    min-height:20px;
+
+    margin-bottom:25px;
+
+}
+
+.controls{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:9px;
+
+}
+
+button{
+
+    border:0;
+
+    border-radius:13px;
+
+    padding:14px 12px;
+
+    background:#18212d;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.18s;
+
+}
+
+button:hover{
+
+    transform:
+        translateY(-1px);
+
+    background:#253140;
+
+}
+
+button:active{
+
+    transform:
+        scale(.98);
+
+}
+
+.primary{
+
+    background:var(--blue);
+
+}
+
+.primary:hover{
+
+    background:var(--blue2);
+
+}
+
+.share{
+
+    background:var(--green);
+
+    color:#06130d;
+
+}
+
+.danger{
+
+    background:var(--red);
+
+}
+
+.full{
+
+    grid-column:
+        1 / -1;
+
+}
+
+.section{
+
+    margin-top:25px;
+
+}
+
+.title{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
+
+    margin-bottom:10px;
+
+}
+
+.inputs{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:8px;
+
+}
+
+.field label{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin:
+        0 0 5px 3px;
+
+}
+
+input{
+
+    width:100%;
+
+    background:var(--card2);
+
+    border:
+        1px solid #273342;
+
+    border-radius:11px;
+
+    color:white;
+
+    padding:13px 8px;
+
+    outline:none;
+
+    font-size:16px;
+
+}
+
+input:focus{
+
+    border-color:
+        var(--blue);
+
+}
+
+.dateInputs{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:10px;
+
+}
+
+.quick{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:7px;
+
+}
+
+.quick button{
+
+    padding:11px 5px;
+
+    font-size:12px;
+
+}
+
+.option{
+
+    background:var(--card2);
+
+    border:
+        1px solid #1b2632;
+
+    border-radius:13px;
+
+    padding:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-top:8px;
+
+}
+
+.option strong{
+
+    display:block;
+
+    font-size:14px;
+
+    margin-bottom:3px;
+
+}
+
+.option small{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+}
+
+.switch{
+
+    position:relative;
+
+    width:48px;
+
+    height:27px;
+
+}
+
+.switch input{
+
+    display:none;
+
+}
+
+.slider{
+
+    position:absolute;
+
+    inset:0;
+
+    background:#273342;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+}
+
+.slider:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:21px;
+
+    height:21px;
+
+    left:3px;
+
+    top:3px;
+
+    background:white;
+
+    border-radius:50%;
+
+    transition:.2s;
+
+}
+
+.switch input:checked + .slider{
+
+    background:var(--blue);
+
+}
+
+.switch input:checked + .slider:before{
+
+    transform:
+        translateX(21px);
+
+}
+
+.shareBox{
+
+    display:none;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border-radius:13px;
+
+    background:#071018;
+
+    border:
+        1px solid #1c3143;
+
+}
+
+.shareBox input{
+
+    margin-bottom:8px;
+
+    font-size:12px;
+
+}
+
+.message{
+
+    display:none;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border-radius:11px;
+
+    background:#0b121b;
+
+    color:var(--muted);
+
+    text-align:center;
+
+    font-size:12px;
+
+}
+
+.footer{
+
+    text-align:center;
+
+    color:#4d5967;
+
+    font-size:11px;
+
+    margin-top:20px;
+
+}
+
+@media(max-width:480px){
+
+    .card{
+
+        padding:18px;
+
+    }
+
+    .inputs{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .timer{
+
+        font-size:42px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="app">
+
+    <div class="logo">
+        ATZ<span>L</span>AM
+    </div>
+
+
+    <div class="card">
+
+
+        <div
+            class="status"
+            id="status"
+        >
+            Temporizador preparado
+        </div>
+
+
+        <div
+            class="timer"
+            id="timer"
+        >
+            00.00
+        </div>
+
+
+        <div
+            class="timerDetails"
+            id="timerDetails"
+        ></div>
+
+
+        <div class="controls">
+
+
+            <button
+                class="primary"
+                onclick="startTimer()"
+            >
+                ▶ Iniciar
+            </button>
+
+
+            <button
+                onclick="pauseTimer()"
+            >
+                ⏸ Pausar
+            </button>
+
+
+            <button
+                class="danger"
+                onclick="resetTimer()"
+            >
+                ↻ Reiniciar
+            </button>
+
+
+            <button
+                class="share"
+                onclick="shareTimer()"
+            >
+                🔗 Compartir
+            </button>
+
+
+        </div>
+
+
+        <!-- COMPARTIR -->
+
+        <div
+            class="shareBox"
+            id="shareBox"
+        >
+
+            <input
+                id="shareUrl"
+                readonly
+            >
+
+            <button
+                class="full"
+                onclick="copyShareLink()"
+            >
+                📋 Copiar enlace
+            </button>
+
+        </div>
+
+
+        <!-- DURACIÓN -->
+
+        <div class="section">
+
+            <div class="title">
+                Duración
+            </div>
+
+
+            <div class="inputs">
+
+
+                <div class="field">
+
+                    <label>
+                        Años
+                    </label>
+
+                    <input
+                        id="years"
+                        type="number"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Meses
+                    </label>
+
+                    <input
+                        id="months"
+                        type="number"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Días
+                    </label>
+
+                    <input
+                        id="days"
+                        type="number"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Horas
+                    </label>
+
+                    <input
+                        id="hours"
+                        type="number"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Minutos
+                    </label>
+
+                    <input
+                        id="minutes"
+                        type="number"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Segundos
+                    </label>
+
+                    <input
+                        id="seconds"
+                        type="number"
+                        min="0"
+                        value="30"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                class="full"
+                style="margin-top:10px"
+                onclick="applyDuration()"
+            >
+                Aplicar duración
+            </button>
+
+        </div>
+
+
+        <!-- FECHA -->
+
+        <div class="section">
+
+            <div class="title">
+                Fecha de finalización
+            </div>
+
+
+            <div class="dateInputs">
+
+                <input
+                    id="endDate"
+                    type="date"
+                >
+
+                <input
+                    id="endTime"
+                    type="time"
+                    value="00:00"
+                >
+
+            </div>
+
+
+            <button
+                class="full"
+                style="margin-top:10px"
+                onclick="setEndDate()"
+            >
+                Usar fecha
+            </button>
+
+        </div>
+
+
+        <!-- RAPIDO -->
+
+        <div class="section">
+
+            <div class="title">
+                Añadir tiempo
+            </div>
+
+
+            <div class="quick">
+
+                <button
+                    onclick="addTime(10)"
+                >
+                    +10s
+                </button>
+
+                <button
+                    onclick="addTime(60)"
+                >
+                    +1m
+                </button>
+
+                <button
+                    onclick="addTime(3600)"
+                >
+                    +1h
+                </button>
+
+                <button
+                    onclick="addTime(86400)"
+                >
+                    +1d
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- OPCIONES -->
+
+        <div class="section">
+
+            <div class="title">
+                Opciones
+            </div>
+
+
+            <div class="option">
+
+                <div>
+
+                    <strong>
+                        Repetir infinitamente
+                    </strong>
+
+                    <small>
+                        Reiniciar cuando llegue a cero
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="infinite"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="option">
+
+                <div>
+
+                    <strong>
+                        Notificación
+                    </strong>
+
+                    <small>
+                        Avisar al terminar
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="notifications"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="option">
+
+                <div>
+
+                    <strong>
+                        Guardado automático
+                    </strong>
+
+                    <small>
+                        Guardar el temporizador
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="autosave"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="message"
+            id="message"
+        ></div>
+
+
+        <div class="footer">
+            ATZLAM Timer · Crea · Guarda · Comparte
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let timer = {
+
+    years:0,
+    months:0,
+    days:0,
+    hours:0,
+    minutes:0,
+    seconds:30
+
+};
+
+let endTimestamp = null;
+
+let remainingWhenPaused = null;
+
+let running = false;
+
+let interval = null;
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const timerElement =
+    document.getElementById("timer");
+
+const detailsElement =
+    document.getElementById("timerDetails");
+
+const statusElement =
+    document.getElementById("status");
+
+
+/* =====================================================
+   UTILIDADES
+===================================================== */
+
+function number(id){
+
+    return Math.max(
+        0,
+        parseInt(
+            document.getElementById(id).value
+        ) || 0
+    );
+
+}
+
+
+function pad(value){
+
+    return String(value)
+        .padStart(2,"0");
+
+}
+
+
+/* =====================================================
+   LEER DURACIÓN
+===================================================== */
+
+function readDuration(){
+
+    return {
+
+        years:number("years"),
+
+        months:number("months"),
+
+        days:number("days"),
+
+        hours:number("hours"),
+
+        minutes:number("minutes"),
+
+        seconds:number("seconds")
+
+    };
+
+}
+
+
+/* =====================================================
+   SUMAR DURACIÓN
+===================================================== */
+
+function addCalendarDuration(
+    date,
+    duration
+){
+
+    const result =
+        new Date(date);
+
+    result.setFullYear(
+        result.getFullYear()
+        + duration.years
+    );
+
+    result.setMonth(
+        result.getMonth()
+        + duration.months
+    );
+
+    result.setDate(
+        result.getDate()
+        + duration.days
+    );
+
+    result.setHours(
+        result.getHours()
+        + duration.hours
+    );
+
+    result.setMinutes(
+        result.getMinutes()
+        + duration.minutes
+    );
+
+    result.setSeconds(
+        result.getSeconds()
+        + duration.seconds
+    );
+
+    return result;
+
+}
+
+
+/* =====================================================
+   DIFERENCIA
+===================================================== */
+
+function getDifference(
+    from,
+    to
+){
+
+    if(to <= from){
+
+        return {
+
+            years:0,
+            months:0,
+            days:0,
+            hours:0,
+            minutes:0,
+            seconds:0
+
+        };
+
+    }
+
+
+    let cursor =
+        new Date(from);
+
+    let years = 0;
+
+    let months = 0;
+
+
+    while(true){
+
+        const next =
+            new Date(cursor);
+
+        next.setFullYear(
+            next.getFullYear()+1
+        );
+
+        if(next <= to){
+
+            cursor = next;
+
+            years++;
+
+        }else{
+
+            break;
+
+        }
+
+        if(years > 10000)
+            break;
+
+    }
+
+
+    while(true){
+
+        const next =
+            new Date(cursor);
+
+        next.setMonth(
+            next.getMonth()+1
+        );
+
+        if(next <= to){
+
+            cursor = next;
+
+            months++;
+
+        }else{
+
+            break;
+
+        }
+
+        if(months > 11)
+            break;
+
+    }
+
+
+    let ms =
+        to.getTime()
+        - cursor.getTime();
+
+
+    const days =
+        Math.floor(
+            ms / 86400000
+        );
+
+    ms -=
+        days * 86400000;
+
+
+    const hours =
+        Math.floor(
+            ms / 3600000
+        );
+
+    ms -=
+        hours * 3600000;
+
+
+    const minutes =
+        Math.floor(
+            ms / 60000
+        );
+
+    ms -=
+        minutes * 60000;
+
+
+    const seconds =
+        Math.floor(
+            ms / 1000
+        );
+
+
+    return {
+
+        years,
+        months,
+        days,
+        hours,
+        minutes,
+        seconds
+
+    };
+
+}
+
+
+/* =====================================================
+   MOSTRAR
+===================================================== */
+
+function updateDisplay(){
+
+    if(!endTimestamp){
+
+        timerElement.textContent =
+            "00.00";
+
+        detailsElement.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    const now =
+        new Date();
+
+    const end =
+        new Date(endTimestamp);
+
+
+    const difference =
+        getDifference(
+            now,
+            end
+        );
+
+
+    timerElement.textContent =
+        pad(difference.hours)
+        + "."
+        + pad(difference.minutes);
+
+
+    const parts = [];
+
+
+    if(difference.years){
+
+        parts.push(
+            difference.years
+            + " año"
+            + (
+                difference.years !== 1
+                ? "s"
+                : ""
+            )
+        );
+
+    }
+
+
+    if(difference.months){
+
+        parts.push(
+            difference.months
+            + " mes"
+            + (
+                difference.months !== 1
+                ? "es"
+                : ""
+            )
+        );
+
+    }
+
+
+    if(difference.days){
+
+        parts.push(
+            difference.days
+            + " día"
+            + (
+                difference.days !== 1
+                ? "s"
+                : ""
+            )
+        );
+
+    }
+
+
+    parts.push(
+
+        pad(difference.hours)
+        + ":"
+        + pad(difference.minutes)
+        + ":"
+        + pad(difference.seconds)
+
+    );
+
+
+    detailsElement.textContent =
+        parts.join(" · ");
+
+}
+
+
+/* =====================================================
+   APLICAR DURACIÓN
+===================================================== */
+
+function applyDuration(){
+
+    stopTimer();
+
+    timer =
+        readDuration();
+
+
+    const now =
+        new Date();
+
+
+    const end =
+        addCalendarDuration(
+            now,
+            timer
+        );
+
+
+    if(end <= now){
+
+        showMessage(
+            "Introduce una duración mayor que cero."
+        );
+
+        return;
+
+    }
+
+
+    endTimestamp =
+        end.getTime();
+
+
+    remainingWhenPaused =
+        null;
+
+
+    running = false;
+
+
+    statusElement.textContent =
+        "Temporizador preparado";
+
+
+    updateDisplay();
+
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   FECHA
+===================================================== */
+
+function setEndDate(){
+
+    stopTimer();
+
+
+    const date =
+        document.getElementById(
+            "endDate"
+        ).value;
+
+
+    const time =
+        document.getElementById(
+            "endTime"
+        ).value
+        || "00:00";
+
+
+    if(!date){
+
+        showMessage(
+            "Selecciona una fecha."
+        );
+
+        return;
+
+    }
+
+
+    const end =
+        new Date(
+            date
+            + "T"
+            + time
+        );
+
+
+    if(
+        isNaN(end.getTime())
+        ||
+        end <= new Date()
+    ){
+
+        showMessage(
+            "La fecha debe estar en el futuro."
+        );
+
+        return;
+
+    }
+
+
+    endTimestamp =
+        end.getTime();
+
+
+    remainingWhenPaused =
+        null;
+
+
+    running = false;
+
+
+    statusElement.textContent =
+        "Fecha establecida";
+
+
+    updateDisplay();
+
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+function startTimer(){
+
+    if(running)
+        return;
+
+
+    if(!endTimestamp){
+
+        applyDuration();
+
+        if(!endTimestamp)
+            return;
+
+    }
+
+
+    if(
+        remainingWhenPaused !== null
+    ){
+
+        endTimestamp =
+            Date.now()
+            + remainingWhenPaused;
+
+        remainingWhenPaused =
+            null;
+
+    }
+
+
+    running = true;
+
+
+    statusElement.textContent =
+        "Temporizador activo";
+
+
+    interval =
+        setInterval(
+            tick,
+            250
+        );
+
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   TICK
+===================================================== */
+
+function tick(){
+
+    if(!endTimestamp)
+        return;
+
+
+    if(
+        endTimestamp
+        <= Date.now()
+    ){
+
+        finishTimer();
+
+        return;
+
+    }
+
+
+    updateDisplay();
+
+}
+
+
+/* =====================================================
+   PAUSAR
+===================================================== */
+
+function pauseTimer(){
+
+    if(!running)
+        return;
+
+
+    remainingWhenPaused =
+        Math.max(
+            0,
+            endTimestamp
+            - Date.now()
+        );
+
+
+    stopTimer();
+
+
+    running = false;
+
+
+    statusElement.textContent =
+        "Temporizador pausado";
+
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   REINICIAR
+===================================================== */
+
+function resetTimer(){
+
+    stopTimer();
+
+
+    running = false;
+
+    remainingWhenPaused =
+        null;
+
+
+    const now =
+        new Date();
+
+
+    endTimestamp =
+        addCalendarDuration(
+            now,
+            timer
+        ).getTime();
+
+
+    statusElement.textContent =
+        "Temporizador reiniciado";
+
+
+    updateDisplay();
+
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   FINALIZAR
+===================================================== */
+
+function finishTimer(){
+
+    stopTimer();
+
+    running = false;
+
+
+    playSound();
+
+
+    sendNotification();
+
+
+    const infinite =
+        document.getElementById(
+            "infinite"
+        ).checked;
+
+
+    if(infinite){
+
+        const now =
+            new Date();
+
+
+        const next =
+            addCalendarDuration(
+                now,
+                timer
+            );
+
+
+        endTimestamp =
+            next.getTime();
+
+
+        statusElement.textContent =
+            "Repetición iniciada";
+
+
+        running = true;
+
+
+        interval =
+            setInterval(
+                tick,
+                250
+            );
+
+
+    }else{
+
+        endTimestamp =
+            null;
+
+
+        remainingWhenPaused =
+            null;
+
+
+        timerElement.textContent =
+            "00.00";
+
+
+        detailsElement.textContent =
+            "Temporizador terminado";
+
+
+        statusElement.textContent =
+            "¡Tiempo terminado!";
+
+    }
+
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   AÑADIR TIEMPO
+===================================================== */
+
+function addTime(seconds){
+
+    if(!endTimestamp){
+
+        applyDuration();
+
+        if(!endTimestamp)
+            return;
+
+    }
+
+
+    endTimestamp +=
+        seconds * 1000;
+
+
+    if(
+        remainingWhenPaused !== null
+    ){
+
+        remainingWhenPaused +=
+            seconds * 1000;
+
+    }
+
+
+    updateDisplay();
+
+    saveTimer();
+
+}
+
+
+/* =====================================================
+   DETENER
+===================================================== */
+
+function stopTimer(){
+
+    if(interval){
+
+        clearInterval(
+            interval
+        );
+
+        interval = null;
+
+    }
+
+}
+
+
+/* =====================================================
+   COMPARTIR
+===================================================== */
+
+async function shareTimer(){
+
+    /*
+       Guardamos el temporizador
+       dentro de la URL.
+    */
+
+
+    if(!endTimestamp){
+
+        showMessage(
+            "Primero crea un temporizador."
+        );
+
+        return;
+
+    }
+
+
+    const data = {
+
+        end:endTimestamp,
+
+        timer:timer,
+
+        infinite:
+            document.getElementById(
+                "infinite"
+            ).checked
+
+    };
+
+
+    /*
+       Convertimos los datos
+       a texto y Base64 seguro.
+    */
+
+    const json =
+        JSON.stringify(data);
+
+
+    const encoded =
+        btoa(
+            encodeURIComponent(json)
+        );
+
+
+    const url =
+        window.location.origin
+        + window.location.pathname
+        + "?timer="
+        + encoded;
+
+
+    document.getElementById(
+        "shareBox"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "shareUrl"
+    ).value =
+        url;
+
+
+    /*
+       Compartir directamente
+       en móviles.
+    */
+
+    if(
+        navigator.share
+    ){
+
+        try{
+
+            await navigator.share({
+
+                title:
+                    "Mi cuenta atrás - ATZLAM",
+
+                text:
+                    "Mira mi cuenta atrás en ATZLAM Timer:",
+
+                url:url
+
+            });
+
+        }catch(error){
+
+            /*
+               El usuario canceló
+               el menú compartir.
+            */
+
+        }
+
+    }else{
+
+        await copyShareLink();
+
+    }
+
+}
+
+
+/* =====================================================
+   COPIAR ENLACE
+===================================================== */
+
+async function copyShareLink(){
+
+    const input =
+        document.getElementById(
+            "shareUrl"
+        );
+
+
+    try{
+
+        await navigator.clipboard.writeText(
+            input.value
+        );
+
+
+        showMessage(
+            "¡Enlace copiado!"
+        );
+
+
+    }catch(error){
+
+        input.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+
+        showMessage(
+            "¡Enlace copiado!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CARGAR TEMPORIZADOR DESDE URL
+===================================================== */
+
+function loadSharedTimer(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const encoded =
+        params.get("timer");
+
+
+    if(!encoded)
+        return false;
+
+
+    try{
+
+        const json =
+            decodeURIComponent(
+                atob(encoded)
+            );
+
+
+        const data =
+            JSON.parse(json);
+
+
+        if(!data.end)
+            return false;
+
+
+        endTimestamp =
+            Number(data.end);
+
+
+        timer =
+            data.timer || timer;
+
+
+        if(
+            data.infinite !== undefined
+        ){
+
+            document.getElementById(
+                "infinite"
+            ).checked =
+                data.infinite;
+
+        }
+
+
+        /*
+           Rellenar los campos.
+        */
+
+        document.getElementById(
+            "years"
+        ).value =
+            timer.years || 0;
+
+
+        document.getElementById(
+            "months"
+        ).value =
+            timer.months || 0;
+
+
+        document.getElementById(
+            "days"
+        ).value =
+            timer.days || 0;
+
+
+        document.getElementById(
+            "hours"
+        ).value =
+            timer.hours || 0;
+
+
+        document.getElementById(
+            "minutes"
+        ).value =
+            timer.minutes || 0;
+
+
+        document.getElementById(
+            "seconds"
+        ).value =
+            timer.seconds || 0;
+
+
+        statusElement.textContent =
+            "Cuenta atrás compartida";
+
+
+        updateDisplay();
+
+
+        /*
+           Si la cuenta ya terminó.
+        */
+
+        if(
+            endTimestamp <= Date.now()
+        ){
+
+            finishTimer();
+
+        }
+
+
+        return true;
+
+
+    }catch(error){
+
+        console.error(
+            "Enlace inválido",
+            error
+        );
+
+
+        showMessage(
+            "El enlace compartido no es válido."
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   NOTIFICACIÓN
+===================================================== */
+
+async function requestNotification(){
+
+    if(
+        !("Notification" in window)
+    ){
+
+        showMessage(
+            "Tu navegador no admite notificaciones."
+        );
+
+        return;
+
+    }
+
+
+    const permission =
+        await Notification.requestPermission();
+
+
+    if(
+        permission === "granted"
+    ){
+
+        new Notification(
+            "ATZLAM Timer",
+            {
+                body:
+                    "Notificaciones activadas."
+            }
+        );
+
+        showMessage(
+            "Notificaciones activadas."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ENVIAR NOTIFICACIÓN
+===================================================== */
+
+function sendNotification(){
+
+    const enabled =
+        document.getElementById(
+            "notifications"
+        ).checked;
+
+
+    if(!enabled)
+        return;
+
+
+    if(
+        "Notification" in window
+        &&
+        Notification.permission
+        === "granted"
+    ){
+
+        new Notification(
+            "ATZLAM Timer",
+            {
+                body:
+                    "¡Tu cuenta atrás ha terminado!"
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SONIDO
+===================================================== */
+
+function playSound(){
+
+    try{
+
+        const AudioContext =
+            window.AudioContext
+            ||
+            window.webkitAudioContext;
+
+
+        if(!AudioContext)
+            return;
+
+
+        const audio =
+            new AudioContext();
+
+
+        const oscillator =
+            audio.createOscillator();
+
+
+        const gain =
+            audio.createGain();
+
+
+        oscillator.frequency.value =
+            800;
+
+
+        oscillator.connect(
+            gain
+        );
+
+
+        gain.connect(
+            audio.destination
+        );
+
+
+        gain.gain.setValueAtTime(
+            .25,
+            audio.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audio.currentTime + 1
+        );
+
+
+        oscillator.start();
+
+
+        oscillator.stop(
+            audio.currentTime + 1
+        );
+
+    }catch(error){}
+
+}
+
+
+/* =====================================================
+   GUARDAR LOCALMENTE
+===================================================== */
+
+function saveTimer(){
+
+    const autosave =
+        document.getElementById(
+            "autosave"
+        ).checked;
+
+
+    if(!autosave)
+        return;
+
+
+    localStorage.setItem(
+        "atzlamTimer",
+        JSON.stringify({
+
+            timer,
+
+            endTimestamp,
+
+            remainingWhenPaused,
+
+            infinite:
+                document.getElementById(
+                    "infinite"
+                ).checked
+
+        })
+    );
+
+}
+
+
+/* =====================================================
+   CARGAR LOCALMENTE
+===================================================== */
+
+function loadLocalTimer(){
+
+    /*
+       Primero damos prioridad
+       al enlace compartido.
+    */
+
+    if(
+        loadSharedTimer()
+    ){
+
+        return;
+
+    }
+
+
+    const saved =
+        localStorage.getItem(
+            "atzlamTimer"
+        );
+
+
+    if(!saved)
+        return;
+
+
+    try{
+
+        const data =
+            JSON.parse(saved);
+
+
+        if(data.timer){
+
+            timer =
+                data.timer;
+
+
+            document.getElementById(
+                "years"
+            ).value =
+                timer.years || 0;
+
+
+            document.getElementById(
+                "months"
+            ).value =
+                timer.months || 0;
+
+
+            document.getElementById(
+                "days"
+            ).value =
+                timer.days || 0;
+
+
+            document.getElementById(
+                "hours"
+            ).value =
+                timer.hours || 0;
+
+
+            document.getElementById(
+                "minutes"
+            ).value =
+                timer.minutes || 0;
+
+
+            document.getElementById(
+                "seconds"
+            ).value =
+                timer.seconds || 0;
+
+        }
+
+
+        endTimestamp =
+            data.endTimestamp
+            || null;
+
+
+        remainingWhenPaused =
+            data.remainingWhenPaused
+            || null;
+
+
+        document.getElementById(
+            "infinite"
+        ).checked =
+            !!data.infinite;
+
+
+        if(
+            endTimestamp
+            &&
+            endTimestamp > Date.now()
+        ){
+
+            statusElement.textContent =
+                "Temporizador recuperado";
+
+
+            updateDisplay();
+
+        }
+
+    }catch(error){
+
+        console.log(
+            "No se pudo recuperar el temporizador."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+function showMessage(text){
+
+    const element =
+        document.getElementById(
+            "message"
+        );
+
+
+    element.textContent =
+        text;
+
+
+    element.style.display =
+        "block";
+
+
+    clearTimeout(
+        window.messageTimeout
+    );
+
+
+    window.messageTimeout =
+        setTimeout(
+            () => {
+
+                element.style.display =
+                    "none";
+
+            },
+            3000
+        );
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+loadLocalTimer();
+
+updateDisplay();
+
+
+setInterval(
+    () => {
+
+        if(endTimestamp){
+
+            if(
+                running
+                &&
+                endTimestamp <= Date.now()
+            ){
+
+                finishTimer();
+
+            }else{
+
+                updateDisplay();
+
+            }
+
+        }
+
+    },
+    1000
+);
+
+
+window.addEventListener(
+    "beforeunload",
+    saveTimer
+);
+
+
+</script>
+
+</body>
+</html>
